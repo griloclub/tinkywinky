@@ -1,22 +1,19 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ProcessMatchLogUseCase } from './use-cases/process-match-log.use-case';
 import { MatchService } from './match.service';
 
 @Controller('matches')
 export class MatchController {
-  constructor(private readonly matchService: MatchService) {}
+  constructor(
+    private readonly processMatchLogUseCase: ProcessMatchLogUseCase,
+    private readonly matchService: MatchService,
+  ) {}
 
-  @Post('load')
+  @Post('logs')
   @UseInterceptors(FileInterceptor('file'))
-  async loadMatches(@UploadedFile() file: Express.Multer.File) {
-    await this.matchService.loadMatches(file.buffer.toString());
+  async processMatchLog(@UploadedFile() file: Express.Multer.File) {
+    await this.processMatchLogUseCase.execute(file.buffer.toString());
   }
 
   @Get()
