@@ -1,12 +1,12 @@
-import { ImportMatchesUseCase } from './import-matches.use-case';
+import { LoadMatchesUseCase } from './load-matches.use-case';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('ImportMatchesUseCase', () => {
-  let useCase: ImportMatchesUseCase;
+describe('LoadMatchesUseCase', () => {
+  let useCase: LoadMatchesUseCase;
 
   beforeEach(() => {
-    useCase = new ImportMatchesUseCase();
+    useCase = new LoadMatchesUseCase();
   });
 
   it('parses matches correctly from the log', async () => {

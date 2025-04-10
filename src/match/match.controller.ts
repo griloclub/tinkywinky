@@ -5,15 +5,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ImportMatchesUseCase } from './use-cases/import-matches.use-case';
+import { LoadMatchesUseCase } from './use-cases/load-matches.use-case';
 
 @Controller('matches')
 export class MatchController {
-  constructor(private readonly importMatchesUseCase: ImportMatchesUseCase) {}
+  constructor(private readonly loadMatchesUseCase: LoadMatchesUseCase) {}
 
-  @Post('import')
+  @Post('load')
   @UseInterceptors(FileInterceptor('file'))
-  async importMatch(@UploadedFile() file: Express.Multer.File) {
-    await this.importMatchesUseCase.execute(file.buffer.toString());
+  async loadMatches(@UploadedFile() file: Express.Multer.File) {
+    await this.loadMatchesUseCase.execute(file.buffer.toString());
   }
 }

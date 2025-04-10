@@ -14,7 +14,7 @@ type ParsedMatch = {
 };
 
 @Injectable()
-export class ImportMatchesUseCase {
+export class LoadMatchesUseCase {
   async execute(log: string) {
     const matches = this.parseLog(log);
     console.log(JSON.stringify(matches, null, 2));
