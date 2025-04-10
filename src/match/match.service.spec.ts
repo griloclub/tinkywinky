@@ -1,21 +1,21 @@
-import { LoadMatchesUseCase } from './load-matches.use-case';
 import * as fs from 'fs';
 import * as path from 'path';
+import { MatchService } from './match.service';
 
-describe('LoadMatchesUseCase', () => {
-  let useCase: LoadMatchesUseCase;
+describe('MatchService', () => {
+  let service: MatchService;
 
   beforeEach(() => {
-    useCase = new LoadMatchesUseCase();
+    service = new MatchService();
   });
 
   it('parses matches correctly from the log', async () => {
     const log = fs.readFileSync(
-      path.resolve(__dirname, '../../../test/fixtures/match1.txt'),
+      path.resolve(__dirname, '../../test/fixtures/match1.txt'),
       'utf-8',
     );
 
-    const result = useCase['parseLog'](log);
+    const result = service['parseLog'](log);
 
     expect(result).toEqual([
       {
@@ -111,7 +111,7 @@ describe('LoadMatchesUseCase', () => {
             23/04/2019 15:36:04 - Another random log entry
         `;
 
-    const result = useCase['parseLog'](log);
+    const result = service['parseLog'](log);
 
     expect(result).toEqual([]);
   });
@@ -122,7 +122,7 @@ describe('LoadMatchesUseCase', () => {
 23/04/2019 15:36:04 - Roman killed Nick using M16
         `;
 
-    const result = useCase['parseLog'](log);
+    const result = service['parseLog'](log);
 
     expect(result).toEqual([
       {
