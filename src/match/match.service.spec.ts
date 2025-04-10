@@ -32,7 +32,7 @@ describe('MatchService', () => {
 
     expect(result).toEqual([
       {
-        id: '11348965',
+        ref: '11348965',
         startTime: '23/04/2019 15:34:22',
         endTime: '23/04/2019 15:39:22',
         events: [
@@ -53,7 +53,7 @@ describe('MatchService', () => {
         ],
       },
       {
-        id: '11348966',
+        ref: '11348966',
         startTime: '23/04/2021 16:14:22',
         endTime: '23/04/2021 16:49:22',
         events: [
@@ -74,7 +74,7 @@ describe('MatchService', () => {
         ],
       },
       {
-        id: '11348961',
+        ref: '11348961',
         startTime: '24/04/2020 16:14:22',
         endTime: '24/04/2020 20:19:22',
         events: [
@@ -95,7 +95,7 @@ describe('MatchService', () => {
           {
             timestamp: '24/04/2020 17:12:34',
             killer: 'Roman',
-            victim: 'Bryian',
+            victim: 'Bryan',
             weapon: 'M16',
             isWorldKill: false,
           },
@@ -139,7 +139,7 @@ describe('MatchService', () => {
 
     expect(result).toEqual([
       {
-        id: '11348965',
+        ref: '11348965',
         startTime: '23/04/2019 15:34:22',
         endTime: '',
         events: [

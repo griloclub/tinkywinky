@@ -1,5 +1,7 @@
 import {
   Controller,
+  Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -15,5 +17,15 @@ export class MatchController {
   @UseInterceptors(FileInterceptor('file'))
   async loadMatches(@UploadedFile() file: Express.Multer.File) {
     await this.matchService.loadMatches(file.buffer.toString());
+  }
+
+  @Get()
+  async getMatches() {
+    return this.matchService.getMatches();
+  }
+
+  @Get(':id/ranking')
+  async getMatchRanking(@Param('id') id: string) {
+    return await this.matchService.getMatchRanking(id);
   }
 }

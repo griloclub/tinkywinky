@@ -9,7 +9,7 @@ datasource db {
 
 model Match {
   id        String       @id @default(cuid())
-  matchId   String       @unique
+  ref       String       @unique
   startTime DateTime
   endTime   DateTime?
   events    MatchEvent[]

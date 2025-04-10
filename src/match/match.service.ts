@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { parse } from 'date-fns';
+import { MatchEvent } from '@prisma/client';
 
 type ParsedMatch = {
-  id: string;
+  ref: string;
   startTime: string;
   endTime: string;
   events: {
@@ -26,6 +27,60 @@ export class MatchService {
     }
   }
 
+  async getMatches() {
+    return this.prisma.match.findMany({
+      orderBy: {
+        startTime: 'desc',
+      },
+    });
+  }
+
+  async getMatchRanking(id: string) {
+    const events = await this.prisma.matchEvent.findMany({
+      where: {
+        matchId: id,
+      },
+    });
+
+    const ranking: Record<
+      string,
+      {
+        frags: number;
+        deaths: number;
+      }
+    > = events.reduce((acc, event) => {
+      if (!acc[event.victim]) {
+        acc[event.victim] = { frags: 0, deaths: 0 };
+      }
+      acc[event.victim].deaths++;
+
+      if (!event.killer) return acc;
+
+      if (!acc[event.killer]) {
+        acc[event.killer] = { frags: 0, deaths: 0 };
+      }
+      acc[event.killer].frags++;
+
+      return acc;
+    }, {});
+
+    const sortedRanking = Object.entries(ranking)
+      .map(([player, stats]) => ({
+        player,
+        frags: stats.frags,
+        deaths: stats.deaths,
+        kdr: Number((stats.frags / (stats.deaths || 1)).toFixed(2)),
+      }))
+      .sort((a, b) => {
+        if (a.frags === b.frags) {
+          return a.deaths - b.deaths;
+        }
+        return b.frags - a.frags;
+      });
+
+    return sortedRanking;
+  }
+
   private parseLog(log: string): ParsedMatch[] {
     const events = log.split('\n');
     const matches: ParsedMatch[] = [];
@@ -35,7 +90,7 @@ export class MatchService {
       if (event.includes('has started')) {
         const [timestamp, action] = event.split(' - ');
         currentMatch = {
-          id: action.split(' ')[2],
+          ref: action.split(' ')[2],
           startTime: timestamp,
           endTime: '',
           events: [],
@@ -73,15 +128,15 @@ export class MatchService {
 
   async saveMatch(match: ParsedMatch) {
     this.prisma.$transaction(async (prisma) => {
-      await prisma.match.delete({
+      await prisma.match.deleteMany({
         where: {
-          matchId: match.id,
+          ref: match.ref,
         },
       });
 
       const createdMatch = await prisma.match.create({
         data: {
-          matchId: match.id,
+          ref: match.ref,
           startTime: parse(match.startTime, 'dd/MM/yyyy HH:mm:ss', new Date()),
           endTime: parse(match.endTime, 'dd/MM/yyyy HH:mm:ss', new Date()),
         },
