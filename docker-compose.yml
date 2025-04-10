@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    image: node:22-alpine
+    container_name: tinkywinky
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    command: sh -c "npm install && npx prisma generate && npm run start:dev"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/tinkywinky_db
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tinkywinky_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
