@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { parse } from 'date-fns';
 
 type ParsedMatch = {
   id: string;
@@ -15,6 +17,8 @@ type ParsedMatch = {
 
 @Injectable()
 export class MatchService {
+  constructor(private readonly prisma: PrismaService) {}
+
   async loadMatches(log: string) {
     const matches = this.parseLog(log);
     for (const match of matches) {
@@ -68,6 +72,33 @@ export class MatchService {
   }
 
   async saveMatch(match: ParsedMatch) {
-    console.log('Saving match:', match);
+    this.prisma.$transaction(async (prisma) => {
+      await prisma.match.delete({
+        where: {
+          matchId: match.id,
+        },
+      });
+
+      const createdMatch = await prisma.match.create({
+        data: {
+          matchId: match.id,
+          startTime: parse(match.startTime, 'dd/MM/yyyy HH:mm:ss', new Date()),
+          endTime: parse(match.endTime, 'dd/MM/yyyy HH:mm:ss', new Date()),
+        },
+      });
+
+      const events = match.events.map((event) => ({
+        timestamp: parse(event.timestamp, 'dd/MM/yyyy HH:mm:ss', new Date()),
+        killer: event.killer,
+        victim: event.victim,
+        weapon: event.weapon,
+        isWorldKill: event.isWorldKill,
+        matchId: createdMatch.id,
+      }));
+
+      await prisma.matchEvent.createMany({
+        data: events,
+      });
+    });
   }
 }

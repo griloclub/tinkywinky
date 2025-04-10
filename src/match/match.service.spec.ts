@@ -1,12 +1,25 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { MatchService } from './match.service';
+import { PrismaService } from '../prisma.service';
 
 describe('MatchService', () => {
-  let service: MatchService;
+  let matchService: MatchService;
+  let prismaService: PrismaService;
 
   beforeEach(() => {
-    service = new MatchService();
+    prismaService = {
+      $transaction: jest.fn(),
+      match: {
+        delete: jest.fn(),
+        create: jest.fn(),
+      },
+      matchEvent: {
+        createMany: jest.fn(),
+      },
+    } as unknown as PrismaService;
+
+    matchService = new MatchService(prismaService);
   });
 
   it('parses matches correctly from the log', async () => {
@@ -15,7 +28,7 @@ describe('MatchService', () => {
       'utf-8',
     );
 
-    const result = service['parseLog'](log);
+    const result = matchService['parseLog'](log);
 
     expect(result).toEqual([
       {
@@ -111,7 +124,7 @@ describe('MatchService', () => {
             23/04/2019 15:36:04 - Another random log entry
         `;
 
-    const result = service['parseLog'](log);
+    const result = matchService['parseLog'](log);
 
     expect(result).toEqual([]);
   });
@@ -122,7 +135,7 @@ describe('MatchService', () => {
 23/04/2019 15:36:04 - Roman killed Nick using M16
         `;
 
-    const result = service['parseLog'](log);
+    const result = matchService['parseLog'](log);
 
     expect(result).toEqual([
       {

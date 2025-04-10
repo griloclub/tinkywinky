@@ -7,23 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Player {
-  id         String        @id @default(cuid())
-  name       String        @unique
-  matchStats MatchPlayer[]
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-}
-
 model Match {
-  id        String        @id @default(cuid())
-  matchId   String        @unique
+  id        String       @id @default(cuid())
+  matchId   String       @unique
   startTime DateTime
   endTime   DateTime?
   events    MatchEvent[]
-  players   MatchPlayer[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 }
 
 model MatchEvent {
@@ -33,24 +24,9 @@ model MatchEvent {
   victim      String
   weapon      String?
   isWorldKill Boolean  @default(false)
-  match       Match    @relation(fields: [matchId], references: [id])
+  match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   matchId     String
   isTeamKill  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
-
-model MatchPlayer {
-  id            String   @id @default(cuid())
-  match         Match    @relation(fields: [matchId], references: [id])
-  matchId       String
-  player        Player   @relation(fields: [playerId], references: [id])
-  playerId      String
-  frags         Int      @default(0)
-  deaths        Int      @default(0)
-  awards        String?
-  fragStreak    Int      @default(0)
-  topFragWeapon String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 }
