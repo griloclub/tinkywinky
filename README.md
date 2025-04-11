@@ -45,5 +45,6 @@ You can connect to the DB with the following:
 - Not all bonus features were completed due to time constraints.
 - Only the main tests were written for now to cover the core behavior of the system.
 - The code can still be refactored and improved.
+  - One known limitation is that importing the same log file multiple times in sequence will cause conflicts, as thereis no logic yet to reprocess and recalculate player stats properly, without duplication by summing again the same frags and deaths.
 
 If you have any questions, reach me!
