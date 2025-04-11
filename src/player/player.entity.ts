@@ -1,4 +1,4 @@
-import { MatchStats } from 'src/match-stats/match-stats.entity';
+import { MatchStats } from 'src/match/domain/match-stats.entity';
 
 export type PlayerRaw = {
   id?: string;

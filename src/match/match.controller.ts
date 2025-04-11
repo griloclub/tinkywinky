@@ -1,15 +1,15 @@
 import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProcessMatchLogUseCase } from './use-cases/process-match-log.use-case';
-import { MatchService } from './match.service';
 import { GetMatchRankingUseCase } from './use-cases/get-match-ranking.use-case';
+import { GetMatchesUseCase } from './use-cases/get-matches.use-case';
 
 @Controller('matches')
 export class MatchController {
   constructor(
     private readonly processMatchLogUseCase: ProcessMatchLogUseCase,
     private readonly getMatchRankingUseCase: GetMatchRankingUseCase,
-    private readonly matchService: MatchService,
+    private readonly getMatchesUseCase: GetMatchesUseCase,
   ) {}
 
   @Post('logs')
@@ -20,7 +20,7 @@ export class MatchController {
 
   @Get()
   async getMatches() {
-    return this.matchService.getMatches();
+    return this.getMatchesUseCase.execute();
   }
 
   @Get(':id/ranking')

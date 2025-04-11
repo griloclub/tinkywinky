@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../config/prisma/prisma.service';
 import { Match } from './domain/match.entity';
 
 @Injectable()
@@ -34,5 +34,13 @@ export class MatchRepository {
       WHERE ms."matchId" = ${matchId}
       ORDER BY ms.frags DESC, ms.deaths ASC;
     `;
+  }
+
+  async getMatches() {
+    return this.prismaService.match.findMany({
+      orderBy: {
+        startTime: 'desc',
+      },
+    });
   }
 }
