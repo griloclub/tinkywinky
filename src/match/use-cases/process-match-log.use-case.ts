@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MatchRepository } from '../match.repository';
 import { MatchLogParserService } from '../services/match-log-parser.service';
-import { PlayerRepository } from 'src/player/player.repository';
+import { PlayerRepository } from '../../player/player.repository';
 
 @Injectable()
 export class ProcessMatchLogUseCase {

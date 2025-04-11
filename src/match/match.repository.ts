@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../config/prisma/prisma.service';
 import { Match } from './domain/match.entity';
-import { Player } from 'src/player/player.entity';
+import { Player } from '../player/domain/player.entity';
 
 @Injectable()
 export class MatchRepository {

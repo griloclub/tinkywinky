@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Match } from '../domain/match.entity';
-import { parseMatchLogDate } from 'src/shared/utils/date.utils';
+import { parseMatchLogDate } from '../../shared/utils/date.utils';
 import { MatchEvent } from '../domain/match-event.entity';
 
 export type MatchLogParsed = {

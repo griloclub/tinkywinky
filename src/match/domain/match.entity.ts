@@ -1,6 +1,6 @@
-import { MatchStats } from 'src/match/domain/match-stats.entity';
+import { MatchStats } from './match-stats.entity';
 import { MatchEvent } from './match-event.entity';
-import { Player } from 'src/player/player.entity';
+import { Player } from '../../player/domain/player.entity';
 
 export type MatchRaw = {
   id?: string;

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule } from 'src/config/prisma/prisma.module';
-import { PlayerRepository } from 'src/player/player.repository';
+import { PrismaModule } from '../config/prisma/prisma.module';
+import { PlayerRepository } from '../player/player.repository';
 import { PlayerController } from './player.controller';
 import { GetGlobalRankingUseCase } from './use-cases/get-global-ranking.use-case';
 
