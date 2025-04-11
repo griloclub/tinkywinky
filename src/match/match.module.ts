@@ -6,7 +6,7 @@ import { MatchRepository } from './match.repository';
 import { PlayerRepository } from '../player/player.repository';
 import { GetMatchRankingUseCase } from './use-cases/get-match-ranking.use-case';
 import { GetMatchesUseCase } from './use-cases/get-matches.use-case';
-import { PrismaModule } from '../config/prisma/prisma.module';
+import { PrismaModule } from '../database/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
