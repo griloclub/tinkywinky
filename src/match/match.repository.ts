@@ -25,4 +25,14 @@ export class MatchRepository {
       await prisma.matchStats.createMany({ data: statsData });
     });
   }
+
+  async getRanking(matchId: string) {
+    return await this.prismaService.$queryRaw`
+      SELECT p.name, ms.frags, ms.deaths, ms.kdr, ms."fragStreak"
+      FROM "MatchStats" ms
+      JOIN "Player" p ON p.id = ms."playerId"
+      WHERE ms."matchId" = ${matchId}
+      ORDER BY ms.frags DESC, ms.deaths ASC;
+    `;
+  }
 }

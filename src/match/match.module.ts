@@ -6,16 +6,18 @@ import { MatchLogParserService } from './services/match-log-parser.service';
 import { MatchRepository } from './match.repository';
 import { MatchService } from './match.service';
 import { PlayerRepository } from 'src/player/player.repository';
+import { GetMatchRankingUseCase } from './use-cases/get-match-ranking.use-case';
 
 @Module({
   imports: [PrismaModule],
   controllers: [MatchController],
   providers: [
     ProcessMatchLogUseCase,
+    GetMatchRankingUseCase,
     MatchLogParserService,
+    MatchService,
     MatchRepository,
     PlayerRepository,
-    MatchService,
   ],
 })
 export class MatchModule {}
