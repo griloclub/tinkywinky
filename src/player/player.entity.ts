@@ -37,10 +37,17 @@ export class Player {
     };
   }
 
-  computeStats(matchStats: MatchStats) {
-    this.frags += matchStats.frags;
-    this.deaths += matchStats.deaths;
-    this.kdr = this.deaths === 0 ? this.frags : this.frags / this.deaths;
-    this.matchStats.push(matchStats);
+  addFrag(): void {
+    this.frags++;
+    this.computeKdr();
+  }
+
+  addDeath(): void {
+    this.deaths++;
+    this.computeKdr();
+  }
+
+  private computeKdr(): void {
+    this.kdr = this.deaths === 0 ? this.frags : Number((this.frags / this.deaths).toFixed(2));
   }
 }

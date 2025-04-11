@@ -3,7 +3,7 @@ import { Player } from 'src/player/player.entity';
 export type MatchStatsRaw = {
   id?: string;
   matchId?: string;
-  playerId?: string;
+  playerId: string;
   frags: number;
   deaths: number;
   kdr: number;
@@ -23,9 +23,9 @@ export class MatchStats {
   currentFragStreak: number = 0;
   createdAt?: Date;
   updatedAt?: Date;
-  player?: Player;
+  player: Player;
 
-  constructor(props: Partial<MatchStatsRaw> = {}, player?: Player) {
+  constructor(props: Partial<MatchStatsRaw>, player: Player) {
     Object.assign(this, props);
     this.player = player;
   }
@@ -46,17 +46,17 @@ export class MatchStats {
 
   addFrag(): void {
     this.frags++;
+    this.player.addFrag();
     this.currentFragStreak++;
     this.fragStreak = Math.max(this.fragStreak, this.currentFragStreak);
     this.computeKdr();
-    this.player?.computeStats(this);
   }
 
   addDeath(): void {
     this.deaths++;
+    this.player.addDeath();
     this.currentFragStreak = 0;
     this.computeKdr();
-    this.player?.computeStats(this);
   }
 
   private computeKdr(): void {

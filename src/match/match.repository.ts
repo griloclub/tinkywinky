@@ -1,28 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../config/prisma/prisma.service';
 import { Match } from './domain/match.entity';
+import { Player } from 'src/player/player.entity';
 
 @Injectable()
 export class MatchRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async saveMatch(match: Match) {
+  async saveMatch(match: Match, players: Player[]) {
     return await this.prismaService.$transaction(async (prisma) => {
-      await prisma.match.deleteMany({ where: { ref: match.ref } });
+      /**
+       * TODO: allow import existing matches by deleting the old one.
+       * Player stats from reimported matches should be cleaned before to avoid duplicates.
+       */
 
       const createdMatch = await prisma.match.create({ data: match.toRaw() });
 
       if (!match.events.length) return;
 
-      const eventsData = match.events.map((e) => ({ ...e.toRaw(), matchId: createdMatch.id }));
-      await prisma.matchEvent.createMany({ data: eventsData });
+      await prisma.matchEvent.createMany({
+        data: match.events.map((e) => ({ ...e.toRaw(), matchId: createdMatch.id })),
+      });
 
-      const statsData = match.matchStats.map((s) => ({
-        ...s.toRaw(),
-        matchId: createdMatch.id,
-        playerId: s.playerId,
-      }));
-      await prisma.matchStats.createMany({ data: statsData });
+      await prisma.matchStats.createMany({
+        data: match.matchStats.map((s) => ({ ...s.toRaw(), matchId: createdMatch.id })),
+      });
+
+      // TODO: handle player stats update
+      for (const player of players) {
+        await prisma.player.update({
+          where: { id: player.id },
+          data: {
+            frags: player.frags,
+            deaths: player.deaths,
+            kdr: player.kdr,
+          },
+        });
+      }
     });
   }
 

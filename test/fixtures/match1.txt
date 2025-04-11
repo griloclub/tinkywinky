@@ -1,17 +1,55 @@
-23/04/2019 15:34:22 - New match 11348965 has started
-23/04/2019 15:36:04 - Roman killed Nick using M16
-23/04/2019 15:36:33 - <WORLD> killed Nick by DROWN
-23/04/2019 15:39:22 - Match 11348965 has ended
-
-23/04/2021 16:14:22 - New match 11348966 has started
-23/04/2021 16:26:04 - Roman killed Marcus using M16
-23/04/2021 16:36:33 - <WORLD> killed Marcus by DROWN
-23/04/2021 16:49:22 - Match 11348966 has ended
-
-24/04/2020 16:14:22 - New match 11348961 has started
-24/04/2020 16:26:12 - Roman killed Marcus using M16
-24/04/2020 16:35:56 - Marcus killed Jhon using AK47
-24/04/2020 17:12:34 - Roman killed Bryan using M16
-24/04/2020 18:26:14 - Bryan killed Marcus using AK47
-24/04/2020 19:36:33 - <WORLD> killed Marcus by DROWN
-24/04/2020 20:19:22 - Match 11348961 has ended
+25/04/2020 15:00:00 - New match 78472313 has started
+25/04/2020 15:00:45 - Alice killed Bob using M4A1
+25/04/2020 15:01:10 - Charlie killed Eve using AK47
+25/04/2020 15:01:33 - Diana killed Frank using Sniper
+25/04/2020 15:01:58 - George killed Henry using Shotgun
+25/04/2020 15:02:27 - Alice killed Charlie using M4A1
+25/04/2020 15:02:51 - Frank killed Bob using Sniper
+25/04/2020 15:03:18 - Eve killed Diana using AK47
+25/04/2020 15:03:42 - Henry killed George using M4A1
+25/04/2020 15:04:07 - Charlie killed Frank using Shotgun
+25/04/2020 15:04:30 - Alice killed Eve using M4A1
+25/04/2020 15:04:52 - <WORLD> killed Bob by DROWN
+25/04/2020 15:05:18 - Diana killed Henry using Sniper
+25/04/2020 15:05:42 - George killed Charlie using AK47
+25/04/2020 15:06:10 - Alice killed Frank using Shotgun
+25/04/2020 15:06:35 - Eve killed Diana using Sniper
+25/04/2020 15:07:00 - Henry killed George using M4A1
+25/04/2020 15:07:28 - Charlie killed Alice using AK47
+25/04/2020 15:07:52 - Frank killed Eve using Shotgun
+25/04/2020 15:08:19 - Diana killed Bob using Sniper
+25/04/2020 15:08:47 - George killed Alice using AK47
+25/04/2020 15:09:11 - Henry killed Charlie using M4A1
+25/04/2020 15:09:33 - Alice killed Diana using Sniper
+25/04/2020 15:09:57 - Frank killed Henry using Shotgun
+25/04/2020 15:10:20 - Eve killed George using AK47
+25/04/2020 15:10:42 - <WORLD> killed Bob by FALL
+25/04/2020 15:11:05 - Charlie killed Frank using AK47
+25/04/2020 15:11:29 - Alice killed Eve using Sniper
+25/04/2020 15:11:51 - Diana killed Henry using M4A1
+25/04/2020 15:12:16 - George killed Charlie using Shotgun
+25/04/2020 15:12:40 - Alice killed Frank using M4A1
+25/04/2020 15:13:03 - Eve killed Diana using Sniper
+25/04/2020 15:13:26 - Henry killed George using AK47
+25/04/2020 15:13:50 - Bob killed Alice using M4A1
+25/04/2020 15:14:12 - Charlie killed Eve using Shotgun
+25/04/2020 15:14:37 - Frank killed Diana using Sniper
+25/04/2020 15:15:00 - Alice killed George using AK47
+25/04/2020 15:15:24 - <WORLD> killed Bob by DROWN
+25/04/2020 15:15:49 - Eve killed Henry using Shotgun
+25/04/2020 15:16:12 - Charlie killed Alice using AK47
+25/04/2020 15:16:35 - Diana killed Frank using Sniper
+25/04/2020 15:17:00 - George killed Charlie using M4A1
+25/04/2020 15:17:24 - Henry killed Eve using AK47
+25/04/2020 15:17:50 - Alice killed Diana using Sniper
+25/04/2020 15:18:15 - Frank killed George using Shotgun
+25/04/2020 15:18:38 - Charlie killed Henry using AK47
+25/04/2020 15:19:02 - Eve killed Alice using M4A1
+25/04/2020 15:19:25 - <WORLD> killed Bob by FALL
+25/04/2020 15:19:48 - Diana killed Charlie using Sniper
+25/04/2020 15:20:13 - George killed Frank using Shotgun
+25/04/2020 15:20:38 - Henry killed Eve using M4A1
+25/04/2020 15:21:01 - Alice killed Diana using AK47
+25/04/2020 15:21:25 - Charlie killed George using Sniper
+25/04/2020 15:21:50 - Frank killed Henry using Shotgun
+25/04/2020 15:22:10 - Match 98472313 has ended

@@ -25,4 +25,12 @@ export class PlayerRepository {
     });
     return new Player(result);
   }
+
+  async getGlobalRanking() {
+    return await this.prismaService.$queryRaw`
+      SELECT p.name, p.frags, p.deaths, p.kdr
+      FROM "Player" p
+      ORDER BY p.frags DESC, p.deaths ASC;
+    `;
+  }
 }

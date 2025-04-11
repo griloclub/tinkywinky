@@ -17,7 +17,7 @@ export class ProcessMatchLogUseCase {
 
     for (const match of matches) {
       match.computeStats(players);
-      await this.matchRepository.saveMatch(match);
+      await this.matchRepository.saveMatch(match, players);
     }
   }
 }
