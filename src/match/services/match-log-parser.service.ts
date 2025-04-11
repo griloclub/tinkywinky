@@ -3,11 +3,17 @@ import { Match } from '../domain/match.entity';
 import { parseMatchLogDate } from 'src/shared/utils/date.utils';
 import { MatchEvent } from '../domain/match-event.entity';
 
+export type MatchLogParsed = {
+  matches: Match[];
+  playerNames: Set<string>;
+};
+
 @Injectable()
 export class MatchLogParserService {
-  parse(log: string): Match[] {
+  parse(log: string): MatchLogParsed {
     const events = log.split('\n');
     const matches: Match[] = [];
+    const playerNames = new Set<string>();
     let currentMatch: Match | null = null;
 
     for (const event of events) {
@@ -35,6 +41,11 @@ export class MatchLogParserService {
         const isWorldKill = killer === '<WORLD>';
         const weapon = isWorldKill ? null : words[4];
 
+        playerNames.add(victim);
+        if (!isWorldKill) {
+          playerNames.add(killer);
+        }
+
         currentMatch?.addEvent(
           new MatchEvent({
             timestamp: parseMatchLogDate(timestamp),
@@ -47,6 +58,6 @@ export class MatchLogParserService {
       }
     }
 
-    return matches;
+    return { matches, playerNames };
   }
 }

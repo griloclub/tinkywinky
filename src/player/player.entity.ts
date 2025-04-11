@@ -36,4 +36,11 @@ export class Player {
       updatedAt: this.updatedAt,
     };
   }
+
+  computeStats(matchStats: MatchStats) {
+    this.frags += matchStats.frags;
+    this.deaths += matchStats.deaths;
+    this.kdr = this.deaths === 0 ? this.frags : this.frags / this.deaths;
+    this.matchStats.push(matchStats);
+  }
 }

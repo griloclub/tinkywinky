@@ -16,6 +16,13 @@ export class MatchRepository {
 
       const eventsData = match.events.map((e) => ({ ...e.toRaw(), matchId: createdMatch.id }));
       await prisma.matchEvent.createMany({ data: eventsData });
+
+      const statsData = match.matchStats.map((s) => ({
+        ...s.toRaw(),
+        matchId: createdMatch.id,
+        playerId: s.playerId,
+      }));
+      await prisma.matchStats.createMany({ data: statsData });
     });
   }
 }

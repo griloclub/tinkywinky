@@ -43,27 +43,35 @@ export class Match {
     this.events.push(event);
   }
 
-  computeStats(): void {
+  computeStats(players: Player[]): void {
     const statsMap = new Map<string, MatchStats>();
 
     for (const event of this.events) {
-      const victimStats = this.getOrCreateStats(statsMap, event.victim);
+      const victimStats = this.getOrCreateStats(event.victim, statsMap, players);
       victimStats.addDeath();
 
       if (!event.killer || event.isWorldKill) {
         continue;
       }
 
-      const killerStats = this.getOrCreateStats(statsMap, event.killer);
+      const killerStats = this.getOrCreateStats(event.killer, statsMap, players);
       killerStats.addFrag();
     }
 
     this.matchStats = Array.from(statsMap.values());
   }
 
-  private getOrCreateStats(statsMap: Map<string, MatchStats>, name: string): MatchStats {
+  private getOrCreateStats(
+    name: string,
+    statsMap: Map<string, MatchStats>,
+    players: Player[],
+  ): MatchStats {
     if (!statsMap.has(name)) {
-      statsMap.set(name, new MatchStats({ matchId: this.id }));
+      const player = players.find((player) => player.name === name);
+      if (!player) {
+        throw new Error(`Player ${name} not found`);
+      }
+      statsMap.set(name, new MatchStats({ playerId: player.id }, player));
     }
     return statsMap.get(name)!;
   }

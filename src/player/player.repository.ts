@@ -6,7 +6,23 @@ import { Player } from './player.entity';
 export class PlayerRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async savePlayers(player: Player) {
-    return await this.prismaService.$transaction(async (prisma) => {});
+  async upsertFromNames(names: string[]) {
+    return await Promise.all(names.map((name) => this.upsert(new Player({ name }))));
+  }
+
+  async upsert(player: Player) {
+    const result = await this.prismaService.player.upsert({
+      where: { name: player.name },
+      update: {
+        frags: player.frags,
+        deaths: player.deaths,
+      },
+      create: {
+        name: player.name,
+        deaths: player.deaths,
+        frags: player.frags,
+      },
+    });
+    return new Player(result);
   }
 }

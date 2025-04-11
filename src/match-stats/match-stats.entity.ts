@@ -14,8 +14,8 @@ export type MatchStatsRaw = {
 
 export class MatchStats {
   id?: string;
-  matchId?: string;
-  playerId?: string;
+  matchId: string;
+  playerId: string;
   frags: number = 0;
   deaths: number = 0;
   kdr: number;
@@ -25,8 +25,9 @@ export class MatchStats {
   updatedAt?: Date;
   player?: Player;
 
-  constructor(props: Partial<MatchStatsRaw>) {
+  constructor(props: Partial<MatchStatsRaw> = {}, player?: Player) {
     Object.assign(this, props);
+    this.player = player;
   }
 
   toRaw(): MatchStatsRaw {
@@ -48,12 +49,14 @@ export class MatchStats {
     this.currentFragStreak++;
     this.fragStreak = Math.max(this.fragStreak, this.currentFragStreak);
     this.computeKdr();
+    this.player?.computeStats(this);
   }
 
   addDeath(): void {
     this.deaths++;
     this.currentFragStreak = 0;
     this.computeKdr();
+    this.player?.computeStats(this);
   }
 
   private computeKdr(): void {
