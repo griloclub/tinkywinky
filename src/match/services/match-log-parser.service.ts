@@ -11,53 +11,63 @@ export type MatchLogParsed = {
 @Injectable()
 export class MatchLogParserService {
   parse(log: string): MatchLogParsed {
-    const events = log.split('\n');
     const matches: Match[] = [];
     const playerNames = new Set<string>();
     let currentMatch: Match | null = null;
 
-    for (const event of events) {
-      if (event.includes('has started')) {
-        const [timestamp, action] = event.split(' - ');
-        currentMatch = new Match({
-          ref: action.split(' ')[2],
-          startTime: parseMatchLogDate(timestamp),
-        });
-        matches.push(currentMatch);
+    for (const line of log.split('\n')) {
+      if (line.includes('has started')) {
+        currentMatch = this.handleStart(line, matches);
         continue;
       }
 
-      if (event.includes('has ended')) {
-        if (!currentMatch) continue;
-        currentMatch.endTime = parseMatchLogDate(event.split(' - ')[0]);
+      if (line.includes('has ended')) {
+        this.handleEnd(line, currentMatch);
         continue;
       }
 
-      if (event.includes('killed')) {
-        const [timestamp, action] = event.split(' - ');
-        const words = action.split(' ');
-        const killer = words[0];
-        const victim = words[2];
-        const isWorldKill = killer === '<WORLD>';
-        const weapon = isWorldKill ? null : words[4];
-
-        playerNames.add(victim);
-        if (!isWorldKill) {
-          playerNames.add(killer);
-        }
-
-        currentMatch?.addEvent(
-          new MatchEvent({
-            timestamp: parseMatchLogDate(timestamp),
-            killer: isWorldKill ? null : killer,
-            victim,
-            weapon,
-            isWorldKill,
-          }),
-        );
+      if (line.includes('killed')) {
+        this.handleKill(line, currentMatch, playerNames);
       }
     }
 
     return { matches, playerNames };
+  }
+
+  private handleStart(line: string, matches: Match[]): Match {
+    const [timestamp, action] = line.split(' - ');
+    const ref = action.split(' ')[2];
+    const match = new Match({
+      ref,
+      startTime: parseMatchLogDate(timestamp),
+    });
+    matches.push(match);
+    return match;
+  }
+
+  private handleEnd(line: string, currentMatch: Match | null) {
+    if (!currentMatch) return;
+    const [timestamp] = line.split(' - ');
+    currentMatch.endTime = parseMatchLogDate(timestamp);
+  }
+
+  private handleKill(line: string, currentMatch: Match | null, playerNames: Set<string>) {
+    if (!currentMatch) return;
+    const [timestamp, action] = line.split(' - ');
+    const [killer, , victim, , weapon] = action.split(' ');
+
+    const isWorldKill = killer === '<WORLD>';
+    if (!isWorldKill) playerNames.add(killer);
+    playerNames.add(victim);
+
+    const event = new MatchEvent({
+      timestamp: parseMatchLogDate(timestamp),
+      killer: isWorldKill ? null : killer,
+      victim,
+      weapon: isWorldKill ? null : weapon,
+      isWorldKill,
+    });
+
+    currentMatch.addEvent(event);
   }
 }

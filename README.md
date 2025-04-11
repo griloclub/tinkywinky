@@ -43,6 +43,7 @@ You can connect to the DB with the following:
 
 - The choice for a preprocessing step during match load to compute and persist data was made to simulate a scenario with performance and scalability in mind. Depending on the context, this may not be the best initial approach, as it introduces complexity early on and might make it harder to adapt to changing requirements.
 - Not all bonus features were completed due to time constraints.
-- Some parts of the code can still be refactored.
+- Only the main tests were written for now to cover the core behavior of the system.
+- The code can still be refactored and improved.
 
 If you have any questions, reach me!
