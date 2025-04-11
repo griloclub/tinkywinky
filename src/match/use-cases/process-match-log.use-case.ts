@@ -13,6 +13,7 @@ export class ProcessMatchLogUseCase {
 
   async execute(log: string) {
     const { matches, playerNames } = this.matchLogParserService.parse(log);
+    if (!matches.length) return;
     const players = await this.playerRepository.upsertFromNames(Array.from(playerNames));
 
     for (const match of matches) {
